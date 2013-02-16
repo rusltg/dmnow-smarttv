@@ -1,0 +1,32 @@
+
+body {
+    padding:0;
+    margin:0;
+    background: #000;
+}
+
+#loader {
+    background: url(app/image/bg.jpg) no-repeat center;
+    width: 1728px;
+    height: 1148px;
+    display: none;
+    overflow: hidden;
+}
+
+#loader .logo, #loader .logo-under {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 470px;
+    height: 241px;
+}
+
+#loader .logo {
+    background: url(app/image/logo.png) no-repeat center;
+}
+
+#loader .logo-under {
+    opacity: 0;
+    background: url(app/image/logo_under.png) no-repeat center;
+}
+
