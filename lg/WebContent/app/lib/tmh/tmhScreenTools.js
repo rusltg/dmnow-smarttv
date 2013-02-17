@@ -44,12 +44,12 @@ var tmhScreenTools = {
                     .outerWidth(parseInt(height * original) );
             }
         }
-        e.css('background-position', '0 ' + (- parseInt((e.outerHeight() - box.outerHeight() ) / 2)) + 'px')
+        e.css('background-position', 'center')
             .css('background-size', e.outerWidth() + 'px ' + e.outerHeight() + 'px')
             .css('top', parseInt((box.outerHeight() - e.outerHeight()) / 2) + 'px')
             .css('left', parseInt((box.outerWidth() - e.outerWidth()) / 2) + 'px');
     },
-    adaptiveFitToBox : function (e, box) {
+    adaptiveFitToBox : function (e, box, preferOriginalSize) {
         e = $(e);
 
         if (box == undefined) {
@@ -59,7 +59,9 @@ var tmhScreenTools = {
         }
 
         if (! e.attr('data-original')) {
-            e.attr('data-original', e.outerWidth() / e.outerHeight());
+            e.attr('data-original', e.outerWidth() / e.outerHeight())
+                .attr('data-original-width', e.outerWidth())
+                .attr('data-original-height', e.outerHeight());
         }
 
         var original = e.attr('data-original');
@@ -69,17 +71,32 @@ var tmhScreenTools = {
             var width  = box.outerWidth();
             var height = parseInt(width / original);
 
-            e.css('background-position', '0 ' + (- parseInt((height - box.outerHeight() ) / 2)) + 'px')
-             .css('background-size', width + 'px ' + height + 'px')
-             .outerWidth(width)
-             .outerHeight(box.outerHeight());
+            if (preferOriginalSize !== true
+                || e.attr('data-original-width') < box.outerWidth() ) {
+                e.css('background-size', width + 'px ' + height + 'px');
+            } else {
+                e.css('background-size', e.attr('data-original-width') + 'px ' +
+                    e.attr('data-original-height') + 'px');
+            }
+            //.css('background-position', '0 ' + (- parseInt((height - box.outerHeight() ) / 2)) + 'px')
+
+            e.css('background-position', 'center')
+                .outerWidth(width)
+                .outerHeight(box.outerHeight());
 
         } else {
             var height = box.outerHeight();
             var width  = parseInt(height * original);
 
-            e.css('background-position', (- parseInt((width - box.outerWidth() ) / 2)) + 'px 0')
-                .css('background-size', width + 'px ' + height + 'px')
+            if (preferOriginalSize !== true
+                || e.attr('data-original-height') < box.outerHeight() ) {
+                //e.css('background-position', (- parseInt((width - box.outerWidth() ) / 2)) + 'px 0')
+                e.css('background-size', width + 'px ' + height + 'px');
+            } else {
+                e.css('background-size', e.attr('data-original-width') + 'px ' +
+                    e.attr('data-original-height') + 'px');
+            }
+            e.css('background-position', 'center')
                 .outerWidth(box.outerWidth())
                 .outerHeight(height);
         }
@@ -115,11 +132,11 @@ var tmhScreenTools = {
         });
         tmhScreenTools.fitToBox(e, box, preferOriginalSize);
     },
-    persistentAdaptiveFitToBox : function (e, box) {
+    persistentAdaptiveFitToBox : function (e, box, preferOriginalSize) {
         $(window).resize(function () {
-            tmhScreenTools.adaptiveFitToBox(e, box);
+            tmhScreenTools.adaptiveFitToBox(e, box, preferOriginalSize);
         });
-        tmhScreenTools.adaptiveFitToBox(e, box);
+        tmhScreenTools.adaptiveFitToBox(e, box, preferOriginalSize);
     },
     persistentPinupCenterBox : function (e, box) {
         $(window).resize(function () {

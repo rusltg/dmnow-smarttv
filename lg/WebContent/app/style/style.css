@@ -6,11 +6,12 @@ body {
 }
 
 #loader {
-    background: url(app/image/bg.jpg) no-repeat center;
+    background: url(/app/image/bg.jpg) no-repeat center;
     width: 1728px;
     height: 1148px;
     display: none;
     overflow: hidden;
+    position: absolute;
 }
 
 #loader .logo, #loader .logo-under {
@@ -22,11 +23,11 @@ body {
 }
 
 #loader .logo {
-    background: url(app/image/logo.png) no-repeat center;
+    background: url(/app/image/logo.png) no-repeat center;
 }
 
 #loader .logo-under {
     opacity: 0;
-    background: url(app/image/logo_under.png) no-repeat center;
+    background: url(/app/image/logo_under.png) no-repeat center;
 }
 
